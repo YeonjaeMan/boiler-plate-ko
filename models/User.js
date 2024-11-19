@@ -10,9 +10,13 @@ const userSchema = mongoose.Schema({
         trim: true, // john ahn@naver.com << 띄어쓰기 제거 활성화
         unique: 1
     },
-    password: {
+    lastname: {
         type: String,
         maxlength: 50
+    },
+    password: {
+        type: String,
+        minlength: 5
     },
     role: {
         type: Number,
