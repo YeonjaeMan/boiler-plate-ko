@@ -48,6 +48,10 @@ userSchema.pre('save', function (next) {
             });
         });
     }
+    // 비밀번호 수정이 아닐 시
+    else {
+        next();
+    }
 });
 
 const User = mongoose.model('User', userSchema)
