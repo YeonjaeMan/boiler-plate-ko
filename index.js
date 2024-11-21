@@ -27,7 +27,7 @@ mongoose.connect(config.mongoURI)
 // 루트디렉토리에 문자열 출력
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.post('/register', async (req, res) => {
+app.post('/api/users/register', async (req, res) => {
     // 회원가입 시 필요한 정보들을 client에서 가져오고,
     const user = new User(req.body)
     // 데이터베이스에 넣어준다.
@@ -40,7 +40,7 @@ app.post('/register', async (req, res) => {
     }
 })
 
-app.post('/login', async (req, res) => {
+app.post('/api/users/login', async (req, res) => {
     try {
         // 요청된 이메일을 데이터베이스에서 확인
         const user = await User.findOne({ email: req.body.email });
