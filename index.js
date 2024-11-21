@@ -13,7 +13,7 @@ const { User } = require("./models/User");
 // cookie-parser 가져오기
 const cookieParser = require('cookie-parser');
 // auth 가져오기
-const auth = require('./middleware/auth');
+const { auth } = require('./middleware/auth');
 const config = require('./config/key');
 
 // application/x-www-form-urlencoded
@@ -103,6 +103,19 @@ app.get('/api/users/auth', auth, (req, res) => {
         role: req.user.role,
         image: req.user.image
     });
+});
+
+app.get('/api/users/logout', auth, async (req, res) => {
+    try {
+        const user = await User.findOneAndUpdate(
+            { _id: req.user._id },
+            { token: "" },
+            { new: true } // 업데이트된 문서를 반환
+        );
+        return res.status(200).send({ success: true });
+    } catch (err) {
+        return res.json({ success: false, err });
+    }
 });
 
 // 포트 5000번에서 실행
