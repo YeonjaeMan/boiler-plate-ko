@@ -12,6 +12,8 @@ const bodyParser = require('body-parser');
 const { User } = require("./models/User");
 // cookie-parser 가져오기
 const cookieParser = require('cookie-parser');
+// auth 가져오기
+const auth = require('./middleware/auth');
 const config = require('./config/key');
 
 // application/x-www-form-urlencoded
@@ -87,6 +89,20 @@ app.post('/api/users/login', async (req, res) => {
     //         });
     //     });
     // });
+});
+
+app.get('/api/users/auth', auth, (req, res) => {
+    // 여기까지 미들웨어를 통과해왔다면 Authentication이 true임
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    });
 });
 
 // 포트 5000번에서 실행
